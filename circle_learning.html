@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎯 رحلة تعلم الدائرة - مغامرة ممتعة!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .lesson-section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+
+        .lesson-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .concept-card {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            border: 3px solid #ff6b6b;
+        }
+
+        .concept-title {
+            font-size: 2em;
+            color: #c92a2a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .visual-demo {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .circle-canvas {
+            border: 2px solid #333;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: block;
+            background: #f8f9fa;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .interactive-game {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 3px dashed #ff6b6b;
+        }
+
+        .puzzle-piece {
+            display: inline-block;
+            padding: 15px 25px;
+            margin: 10px;
+            background: white;
+            border: 3px solid #4c6ef5;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(1.1) rotate(2deg);
+            background: #4c6ef5;
+            color: white;
+        }
+
+        .puzzle-piece.correct {
+            background: #51cf66;
+            color: white;
+            border-color: #2b8a3e;
+        }
+
+        .puzzle-piece.wrong {
+            background: #ff6b6b;
+            color: white;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .drop-zone {
+            min-height: 100px;
+            border: 3px dashed #4c6ef5;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #f1f3f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3em;
+            color: #868e96;
+        }
+
+        .drop-zone.filled {
+            background: #d0ebff;
+            border-color: #1971c2;
+        }
+
+        .quiz-container {
+            background: linear-gradient(135deg, #ffd3a5 0%, #fd6585 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+        }
+
+        .quiz-question {
+            font-size: 1.5em;
+            color: #c92a2a;
+            margin-bottom: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 1.2em;
+        }
+
+        .quiz-option:hover {
+            border-color: #4c6ef5;
+            transform: translateX(-5px);
+        }
+
+        .quiz-option.selected {
+            background: #4c6ef5;
+            color: white;
+        }
+
+        .quiz-option.correct-answer {
+            background: #51cf66;
+            color: white;
+            border-color: #2b8a3e;
+        }
+
+        .quiz-option.wrong-answer {
+            background: #ff6b6b;
+            color: white;
+            border-color: #c92a2a;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.3em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            text-align: center;
+            display: none;
+        }
+
+        .feedback.success {
+            background: #d3f9d8;
+            color: #2b8a3e;
+            border: 3px solid #51cf66;
+            display: block;
+        }
+
+        .feedback.error {
+            background: #ffe3e3;
+            color: #c92a2a;
+            border: 3px solid #ff6b6b;
+            display: block;
+        }
+
+        .lego-builder {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .lego-block {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            font-size: 1.1em;
+        }
+
+        .lego-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .memory-card {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 2em;
+            color: white;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .memory-card.flipped {
+            background: white;
+            border: 3px solid #4c6ef5;
+        }
+
+        .memory-card.matched {
+            background: #51cf66;
+            cursor: default;
+        }
+
+        .stars {
+            font-size: 3em;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .hint-box {
+            background: #fff3bf;
+            border: 3px solid #ffd43b;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.1em;
+        }
+
+        .example-box {
+            background: #e7f5ff;
+            border: 3px solid #339af0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .formula-box {
+            background: #f8f0fc;
+            border: 3px solid #9775fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            font-size: 1.5em;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            z-index: 1000;
+            animation: popIn 0.5s;
+        }
+
+        @keyframes popIn {
+            0% { transform: translate(-50%, -50%) scale(0); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .celebration.show {
+            display: block;
+        }
+
+        .emoji-rain {
+            font-size: 3em;
+            animation: fall 2s linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh); }
+        }
+
+        .score-board {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .score-number {
+            font-size: 3em;
+            color: #4c6ef5;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .concept-title {
+                font-size: 1.5em;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 رحلة الدائرة السحرية</h1>
+            <p style="font-size: 1.3em;">تعلم معادلة الدائرة خطوة بخطوة بطريقة ممتعة! 🚀</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar">0%</div>
+        </div>
+
+        <div class="score-board">
+            <div>🏆 نقاطك</div>
+            <div class="score-number" id="totalScore">0</div>
+        </div>
+
+        <!-- المرحلة 1: ما هي الدائرة؟ -->
+        <div class="lesson-section active" id="section1">
+            <div class="concept-card">
+                <div class="concept-title">
+                    🎨 المرحلة 1: تعرف على الدائرة!
+                </div>
+                
+                <div class="visual-demo">
+                    <h3 style="color: #4c6ef5; margin-bottom: 20px;">شاهد الدائرة تتحرك! 👀</h3>
+                    <canvas id="canvas1" class="circle-canvas" width="400" height="400"></canvas>
+                    <p style="font-size: 1.3em; margin-top: 20px; color: #495057;">
+                        الدائرة هي شكل جميل! كل نقطة عليها بعيدة نفس المسافة عن المركز! 
+                    </p>
+                </div>
+
+                <div class="hint-box">
+                    💡 <strong>فكرة بسيطة:</strong> تخيل أنك تمسك خيط وتلفه حول مسمار... الخيط يرسم دائرة! طول الخيط هو نصف القطر!
+                </div>
+
+                <div class="interactive-game">
+                    <h3 style="margin-bottom: 20px;">🎮 لعبة: اختر أجزاء الدائرة!</h3>
+                    <p style="font-size: 1.2em; margin-bottom: 20px;">اسحب الكلمات الصحيحة للأماكن الصحيحة!</p>
+                    
+                    <div style="margin: 30px 0;">
+                        <div class="puzzle-piece draggable" draggable="true" data-answer="center">المركز 📍</div>
+                        <div class="puzzle-piece draggable" draggable="true" data-answer="radius">نصف القطر 📏</div>
+                        <div class="puzzle-piece draggable" draggable="true" data-answer="point">نقطة على الدائرة 🔴</div>
+                        <div class="puzzle-piece draggable" draggable="true" data-answer="wrong">مربع ❌</div>
+                    </div>
+
+                    <div class="drop-zone" data-zone="center">
+                        <span>🎯 ضع هنا اسم الوسط</span>
+                    </div>
+                    <div class="drop-zone" data-zone="radius">
+                        <span>📏 ضع هنا اسم المسافة من المركز للحافة</span>
+                    </div>
+                    <div class="drop-zone" data-zone="point">
+                        <span>🔴 ضع هنا اسم أي مكان على حافة الدائرة</span>
+                    </div>
+                </div>
+
+                <div class="feedback" id="feedback1"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="checkSection1()">✅ تحقق من الإجابات</button>
+                <button class="btn btn-success" id="next1" onclick="goToSection(2)" disabled>التالي ⬅️</button>
+            </div>
+        </div>
+
+        <!-- المرحلة 2: نصف القطر والمركز -->
+        <div class="lesson-section" id="section2">
+            <div class="concept-card">
+                <div class="concept-title">
+                    📐 المرحلة 2: نصف القطر والمركز
+                </div>
+
+                <div class="visual-demo">
+                    <h3 style="color: #4c6ef5; margin-bottom: 20px;">ارسم دائرتك الخاصة! 🎨</h3>
+                    <canvas id="canvas2" class="circle-canvas" width="400" height="400"></canvas>
+                    <div style="margin: 20px 0;">
+                        <label style="font-size: 1.2em; margin: 10px;">نصف القطر: </label>
+                        <input type="range" id="radiusSlider" min="20" max="150" value="50" style="width: 200px;">
+                        <span id="radiusValue" style="font-size: 1.5em; color: #4c6ef5; margin-right: 10px;">50</span>
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 style="color: #339af0;">📝 مثال:</h3>
+                    <p style="font-size: 1.2em; line-height: 1.8;">
+                        إذا كان المركز عند النقطة (3, 4) ونصف القطر = 5<br>
+                        معنى ذلك: أي نقطة على الدائرة بعدها عن (3, 4) يساوي 5 وحدات بالضبط! ✨
+                    </p>
+                </div>
+
+                <div class="interactive-game">
+                    <h3 style="margin-bottom: 20px;">🧩 بازل الأرقام!</h3>
+                    <p style="font-size: 1.2em;">اختر نصف القطر الصحيح لكل مسألة:</p>
+                    
+                    <div id="puzzle2" style="margin: 20px 0;"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">
+                        ❓ إذا كانت المسافة من المركز إلى أي نقطة على الدائرة = 7، ما هو نصف القطر؟
+                    </div>
+                    <div class="quiz-option" onclick="selectQuiz2(this, false)">5</div>
+                    <div class="quiz-option" onclick="selectQuiz2(this, true)">7</div>
+                    <div class="quiz-option" onclick="selectQuiz2(this, false)">14</div>
+                    <div class="quiz-option" onclick="selectQuiz2(this, false)">10</div>
+                </div>
+
+                <div class="feedback" id="feedback2"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="goToSection(1)">⬅️ السابق</button>
+                <button class="btn btn-success" id="next2" onclick="goToSection(3)" disabled>التالي ⬅️</button>
+            </div>
+        </div>
+
+        <!-- المرحلة 3: معادلة الدائرة البسيطة -->
+        <div class="lesson-section" id="section3">
+            <div class="concept-card">
+                <div class="concept-title">
+                    🎯 المرحلة 3: معادلة الدائرة السحرية!
+                </div>
+
+                <div class="formula-box">
+                    x² + y² = r²
+                </div>
+
+                <div class="hint-box">
+                    💡 <strong>السر:</strong> هذه المعادلة فقط للدائرة التي مركزها عند (0, 0) يعني في الوسط تماماً!
+                </div>
+
+                <div class="visual-demo">
+                    <h3 style="color: #4c6ef5; margin-bottom: 20px;">شاهد المعادلة تعمل! ✨</h3>
+                    <canvas id="canvas3" class="circle-canvas" width="400" height="400"></canvas>
+                    <p style="font-size: 1.3em; margin: 20px; color: #495057;">
+                        المعادلة: x² + y² = <span id="rSquared" style="color: #4c6ef5; font-weight: bold;">2500</span>
+                    </p>
+                </div>
+
+                <div class="example-box">
+                    <h3 style="color: #339af0;">📝 أمثلة سهلة:</h3>
+                    <div style="font-size: 1.2em; line-height: 2;">
+                        🔹 إذا كان نصف القطر = 5 → المعادلة: x² + y² = 25<br>
+                        🔹 إذا كان نصف القطر = 10 → المعادلة: x² + y² = 100<br>
+                        🔹 إذا كان نصف القطر = 3 → المعادلة: x² + y² = 9
+                    </div>
+                </div>
+
+                <div class="interactive-game">
+                    <h3 style="margin-bottom: 20px;">🎮 لعبة بناء المعادلات بالليغو!</h3>
+                    <p style="font-size: 1.2em;">اختر القطع الصحيحة لبناء المعادلة!</p>
+                    
+                    <div class="lego-builder" id="legoBuilder">
+                        <div class="lego-block" style="background: #ff6b6b;" onclick="selectLego(this, 'x²')">x²</div>
+                        <div class="lego-block" style="background: #51cf66;" onclick="selectLego(this, '+')">+</div>
+                        <div class="lego-block" style="background: #4c6ef5;" onclick="selectLego(this, 'y²')">y²</div>
+                        <div class="lego-block" style="background: #ffd43b;" onclick="selectLego(this, '=')"> = </div>
+                        <div class="lego-block" style="background: #9775fa;" onclick="selectLego(this, '25')">25</div>
+                    </div>
+
+                    <div class="drop-zone" id="legoEquation" style="min-height: 80px; font-size: 1.5em;">
+                        انقر على القطع بالترتيب!
+                    </div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">
+                        ❓ ما هي معادلة دائرة مركزها (0,0) ونصف قطرها 8?
+                    </div>
+                    <div class="quiz-option" onclick="selectQuiz3(this, false)">x² + y² = 8</div>
+                    <div class="quiz-option" onclick="selectQuiz3(this, true)">x² + y² = 64</div>
+                    <div class="quiz-option" onclick="selectQuiz3(this, false)">x + y = 64</div>
+                    <div class="quiz-option" onclick="selectQuiz3(this, false)">x² + y² = 16</div>
+                </div>
+
+                <div class="feedback" id="feedback3"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="goToSection(2)">⬅️ السابق</button>
+                <button class="btn btn-success" id="next3" onclick="goToSection(4)" disabled>التالي ⬅️</button>
+            </div>
+        </div>
+
+        <!-- المرحلة 4: الصورة القياسية -->
+        <div class="lesson-section" id="section4">
+            <div class="concept-card">
+                <div class="concept-title">
+                    🌟 المرحلة 4: الصورة القياسية (المعادلة الكاملة!)
+                </div>
+
+                <div class="formula-box" style="background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);">
+                    (x - a)² + (y - b)² = r²
+                </div>
+
+                <div class="hint-box">
+                    💡 <strong>معنى الرموز:</strong><br>
+                    • (a, b) = مركز الدائرة 📍<br>
+                    • r = نصف القطر 📏<br>
+                    • x و y = أي نقطة على الدائرة 🔴
+                </div>
+
+                <div class="visual-demo">
+                    <h3 style="color: #4c6ef5; margin-bottom: 20px;">حرك المركز وشاهد المعادلة تتغير! 🎨</h3>
+                    <canvas id="canvas4" class="circle-canvas" width="400" height="400"></canvas>
+                    <div style="margin: 20px;">
+                        <p style="font-size: 1.2em;">المركز:</p>
+                        <label>a = </label>
+                        <input type="range" id="aSlider" min="-5" max="5" value="2" style="width: 150px;">
+                        <span id="aValue" style="font-weight: bold; color: #4c6ef5;">2</span>
+                        <br><br>
+                        <label>b = </label>
+                        <input type="range" id="bSlider" min="-5" max="5" value="3" style="width: 150px;">
+                        <span id="bValue" style="font-weight: bold; color: #4c6ef5;">3</span>
+                    </div>
+                    <div class="formula-box" id="formula4" style="font-size: 1.3em;">
+                        (x - 2)² + (y - 3)² = 25
+                    </div>
+                </div>
+
+                <div class="example-box">
+                    <h3 style="color: #339af0;">📝 أمثلة واضحة:</h3>
+                    <div style="font-size: 1.2em; line-height: 2;">
+                        🔹 المركز (3, 4) ونصف القطر 5<br>
+                        → المعادلة: (x - 3)² + (y - 4)² = 25<br><br>
+                        🔹 المركز (1, 2) ونصف القطر 6<br>
+                        → المعادلة: (x - 1)² + (y - 2)² = 36<br><br>
+                        🔹 المركز (-2, 5) ونصف القطر 4<br>
+                        → المعادلة: (x + 2)² + (y - 5)² = 16
+                    </div>
+                </div>
+
+                <div class="interactive-game">
+                    <h3 style="margin-bottom: 20px;">🎯 لعبة المطابقة!</h3>
+                    <p style="font-size: 1.2em;">اضغط على البطاقات المتطابقة!</p>
+                    <div id="memoryGame" style="text-align: center;"></div>
+                </div>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">
+                        ❓ ما هي معادلة دائرة مركزها (5, 7) ونصف قطرها 3?
+                    </div>
+                    <div class="quiz-option" onclick="selectQuiz4(this, false)">(x - 5)² + (y - 7)² = 3</div>
+                    <div class="quiz-option" onclick="selectQuiz4(this, true)">(x - 5)² + (y - 7)² = 9</div>
+                    <div class="quiz-option" onclick="selectQuiz4(this, false)">(x + 5)² + (y + 7)² = 9</div>
+                    <div class="quiz-option" onclick="selectQuiz4(this, false)">(x - 5)² + (y - 7)² = 6</div>
+                </div>
+
+                <div class="feedback" id="feedback4"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="goToSection(3)">⬅️ السابق</button>
+                <button class="btn btn-success" id="next4" onclick="goToSection(5)" disabled>التالي ⬅️</button>
+            </div>
+        </div>
+
+        <!-- المرحلة 5: الاختبار النهائي -->
+        <div class="lesson-section" id="section5">
+            <div class="concept-card">
+                <div class="concept-title">
+                    🏆 المرحلة النهائية: اختبار البطل!
+                </div>
+
+                <div style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 30px; border-radius: 15px; margin: 20px 0;">
+                    <h3 style="text-align: center; color: #4c6ef5; font-size: 1.8em;">🎯 اختبار شامل</h3>
+                    
+                    <div class="quiz-container" style="margin: 30px 0;">
+                        <div class="quiz-question">
+                            السؤال 1️⃣: ما هو نصف قطر الدائرة: x² + y² = 49 ؟
+                        </div>
+                        <div class="quiz-option" onclick="selectFinal(1, this, true)">7</div>
+                        <div class="quiz-option" onclick="selectFinal(1, this, false)">49</div>
+                        <div class="quiz-option" onclick="selectFinal(1, this, false)">14</div>
+                        <div class="quiz-option" onclick="selectFinal(1, this, false)">3.5</div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            السؤال 2️⃣: ما هو مركز الدائرة: (x - 4)² + (y + 3)² = 16 ؟
+                        </div>
+                        <div class="quiz-option" onclick="selectFinal(2, this, false)">(-4, 3)</div>
+                        <div class="quiz-option" onclick="selectFinal(2, this, true)">(4, -3)</div>
+                        <div class="quiz-option" onclick="selectFinal(2, this, false)">(4, 3)</div>
+                        <div class="quiz-option" onclick="selectFinal(2, this, false)">(-4, -3)</div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            السؤال 3️⃣: اكتب معادلة دائرة مركزها (2, 5) ونصف قطرها 6
+                        </div>
+                        <div class="quiz-option" onclick="selectFinal(3, this, false)">(x + 2)² + (y + 5)² = 6</div>
+                        <div class="quiz-option" onclick="selectFinal(3, this, false)">(x - 2)² + (y - 5)² = 6</div>
+                        <div class="quiz-option" onclick="selectFinal(3, this, true)">(x - 2)² + (y - 5)² = 36</div>
+                        <div class="quiz-option" onclick="selectFinal(3, this, false)">(x + 2)² + (y + 5)² = 36</div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            السؤال 4️⃣: من المعادلة (x - 1)² + (y + 4)² = 100، ما هو نصف القطر؟
+                        </div>
+                        <div class="quiz-option" onclick="selectFinal(4, this, false)">100</div>
+                        <div class="quiz-option" onclick="selectFinal(4, this, true)">10</div>
+                        <div class="quiz-option" onclick="selectFinal(4, this, false)">50</div>
+                        <div class="quiz-option" onclick="selectFinal(4, this, false)">20</div>
+                    </div>
+
+                    <div class="quiz-container">
+                        <div class="quiz-question">
+                            السؤال 5️⃣: إذا كانت النقطة (3, 4) تقع على دائرة مركزها الأصل، ما هي المعادلة؟
+                        </div>
+                        <div class="quiz-option" onclick="selectFinal(5, this, false)">x² + y² = 7</div>
+                        <div class="quiz-option" onclick="selectFinal(5, this, true)">x² + y² = 25</div>
+                        <div class="quiz-option" onclick="selectFinal(5, this, false)">x² + y² = 12</div>
+                        <div class="quiz-option" onclick="selectFinal(5, this, false)">x² + y² = 5</div>
+                    </div>
+                </div>
+
+                <div class="feedback" id="feedbackFinal"></div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-primary" onclick="goToSection(4)">⬅️ السابق</button>
+                <button class="btn btn-success" onclick="checkFinalTest()">✅ تحقق من الإجابات</button>
+                <button class="btn btn-success" id="finishBtn" onclick="finishCourse()" disabled style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">🎉 إنهاء الدرس</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <h2 style="font-size: 3em; color: #4c6ef5; margin: 20px 0;">أحسنت! 🎉</h2>
+        <p style="font-size: 1.5em; color: #495057;">أنت بطل حقيقي!</p>
+        <div style="font-size: 5em; margin: 20px 0;">🏆</div>
+        <button class="btn btn-primary" onclick="closeCelebration()">متابعة 🚀</button>
+    </div>
+
+    <script>
+        let score = 0;
+        let currentSection = 1;
+        let finalAnswers = [false, false, false, false, false];
+        let legoSequence = [];
+        const correctLegoSequence = ['x²', '+', 'y²', '=', '25'];
+
+        // Canvas 1 Animation
+        function animateCircle1() {
+            const canvas = document.getElementById('canvas1');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let angle = 0;
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Grid
+                ctx.strokeStyle = '#e9ecef';
+                ctx.lineWidth = 1;
+                for (let i = 0; i < canvas.width; i += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, canvas.height);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, i);
+                    ctx.lineTo(canvas.width, i);
+                    ctx.stroke();
+                }
+
+                // Circle
+                ctx.beginPath();
+                ctx.arc(200, 200, 100, 0, Math.PI * 2);
+                ctx.strokeStyle = '#4c6ef5';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Center
+                ctx.fillStyle = '#ff6b6b';
+                ctx.beginPath();
+                ctx.arc(200, 200, 5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillText('المركز', 210, 200);
+
+                // Radius
+                const x = 200 + 100 * Math.cos(angle);
+                const y = 200 + 100 * Math.sin(angle);
+                ctx.beginPath();
+                ctx.moveTo(200, 200);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = '#51cf66';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Point
+                ctx.fillStyle = '#ffd43b';
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                angle += 0.02;
+                requestAnimationFrame(draw);
+            }
+            draw();
+        }
+
+        // Canvas 2 Interactive
+        function setupCanvas2() {
+            const canvas = document.getElementById('canvas2');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const slider = document.getElementById('radiusSlider');
+            const valueDisplay = document.getElementById('radiusValue');
+
+            function draw() {
+                const radius = parseInt(slider.value);
+                valueDisplay.textContent = radius;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Grid
+                ctx.strokeStyle = '#e9ecef';
+                ctx.lineWidth = 1;
+                for (let i = 0; i < canvas.width; i += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, canvas.height);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, i);
+                    ctx.lineTo(canvas.width, i);
+                    ctx.stroke();
+                }
+
+                // Circle
+                ctx.beginPath();
+                ctx.arc(200, 200, radius, 0, Math.PI * 2);
+                ctx.strokeStyle = '#4c6ef5';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(76, 110, 245, 0.1)';
+                ctx.fill();
+
+                // Center
+                ctx.fillStyle = '#ff6b6b';
+                ctx.beginPath();
+                ctx.arc(200, 200, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Radius line
+                ctx.beginPath();
+                ctx.moveTo(200, 200);
+                ctx.lineTo(200 + radius, 200);
+                ctx.strokeStyle = '#51cf66';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 16px Arial';
+                ctx.fillText('r = ' + radius, 200 + radius/2 - 20, 190);
+            }
+
+            slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // Canvas 3
+        function setupCanvas3() {
+            const canvas = document.getElementById('canvas3');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const r = 50;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Axes
+            ctx.strokeStyle = '#adb5bd';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, 200);
+            ctx.lineTo(400, 200);
+            ctx.moveTo(200, 0);
+            ctx.lineTo(200, 400);
+            ctx.stroke();
+
+            // Circle
+            ctx.beginPath();
+            ctx.arc(200, 200, r, 0, Math.PI * 2);
+            ctx.strokeStyle = '#4c6ef5';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.fillStyle = 'rgba(76, 110, 245, 0.1)';
+            ctx.fill();
+
+            // Center
+            ctx.fillStyle = '#ff6b6b';
+            ctx.beginPath();
+            ctx.arc(200, 200, 6, 0, Math.PI * 2);
+            ctx.fill();
+
+            document.getElementById('rSquared').textContent = r * r;
+        }
+
+        // Canvas 4
+        function setupCanvas4() {
+            const canvas = document.getElementById('canvas4');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const aSlider = document.getElementById('aSlider');
+            const bSlider = document.getElementById('bSlider');
+            const aValue = document.getElementById('aValue');
+            const bValue = document.getElementById('bValue');
+            const formula = document.getElementById('formula4');
+
+            function draw() {
+                const a = parseInt(aSlider.value);
+                const b = parseInt(bSlider.value);
+                aValue.textContent = a;
+                bValue.textContent = b;
+
+                const centerX = 200 + a * 20;
+                const centerY = 200 - b * 20;
+                const r = 50;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Grid
+                ctx.strokeStyle = '#e9ecef';
+                ctx.lineWidth = 1;
+                for (let i = 0; i < canvas.width; i += 40) {
+                    ctx.beginPath();
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, canvas.height);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, i);
+                    ctx.lineTo(canvas.width, i);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#adb5bd';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, 200);
+                ctx.lineTo(400, 200);
+                ctx.moveTo(200, 0);
+                ctx.lineTo(200, 400);
+                ctx.stroke();
+
+                // Circle
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, r, 0, Math.PI * 2);
+                ctx.strokeStyle = '#4c6ef5';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(76, 110, 245, 0.1)';
+                ctx.fill();
+
+                // Center
+                ctx.fillStyle = '#ff6b6b';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#000';
+                ctx.font = 'bold 14px Arial';
+                ctx.fillText(`(${a}, ${b})`, centerX + 10, centerY - 10);
+
+                // Update formula
+                const xPart = a >= 0 ? `(x - ${a})` : `(x + ${-a})`;
+                const yPart = b >= 0 ? `(y - ${b})` : `(y + ${-b})`;
+                formula.textContent = `${xPart}² + ${yPart}² = 25`;
+            }
+
+            aSlider.addEventListener('input', draw);
+            bSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // Drag and Drop
+        document.addEventListener('DOMContentLoaded', function() {
+            animateCircle1();
+            setupCanvas2();
+
+            const draggables = document.querySelectorAll('.draggable');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.dataset.answer);
+                    this.style.opacity = '0.5';
+                });
+
+                draggable.addEventListener('dragend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.style.background = '#d0ebff';
+                });
+
+                zone.addEventListener('dragleave', function() {
+                    this.style.background = '';
+                });
+
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    const data = e.dataTransfer.getData('text/plain');
+                    if (data === this.dataset.zone) {
+                        this.classList.add('filled');
+                        this.innerHTML = '<span style="color: #1971c2; font-weight: bold;">✓ صحيح!</span>';
+                    } else {
+                        this.innerHTML = '<span style="color: #c92a2a; font-weight: bold;">✗ حاول مرة أخرى</span>';
+                        setTimeout(() => {
+                            this.innerHTML = this.querySelector('span').textContent;
+                        }, 1000);
+                    }
+                    this.style.background = '';
+                });
+            });
+
+            // Setup puzzle 2
+            const puzzle2 = document.getElementById('puzzle2');
+            if (puzzle2) {
+                puzzle2.innerHTML = `
+                    <div style="background: white; padding: 20px; border-radius: 10px; margin: 10px 0;">
+                        <p style="font-size: 1.2em; margin-bottom: 15px;">المسافة من المركز للحافة = 12</p>
+                        <div>
+                            <span class="puzzle-piece" onclick="checkPuzzle2(this, true)">12</span>
+                            <span class="puzzle-piece" onclick="checkPuzzle2(this, false)">24</span>
+                            <span class="puzzle-piece" onclick="checkPuzzle2(this, false)">6</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Setup memory game
+            setupMemoryGame();
+        });
+
+        function checkPuzzle2(element, correct) {
+            if (correct) {
+                element.classList.add('correct');
+                addScore(10);
+                setTimeout(() => {
+                    element.classList.remove('correct');
+                }, 1000);
+            } else {
+                element.classList.add('wrong');
+                setTimeout(() => {
+                    element.classList.remove('wrong');
+                }, 500);
+            }
+        }
+
+        function selectLego(element, value) {
+            legoSequence.push(value);
+            const display = document.getElementById('legoEquation');
+            display.textContent = legoSequence.join(' ');
+            
+            if (legoSequence.length === 5) {
+                if (JSON.stringify(legoSequence) === JSON.stringify(correctLegoSequence)) {
+                    display.style.color = '#51cf66';
+                    display.style.borderColor = '#51cf66';
+                    addScore(20);
+                    setTimeout(() => {
+                        showFeedback('feedback3', 'success', '🎉 رائع! بنيت المعادلة بشكل صحيح!');
+                    }, 500);
+                } else {
+                    display.style.color = '#ff6b6b';
+                    display.style.borderColor = '#ff6b6b';
+                    setTimeout(() => {
+                        legoSequence = [];
+                        display.textContent = 'حاول مرة أخرى!';
+                        display.style.color = '';
+                        display.style.borderColor = '';
+                    }, 1000);
+                }
+            }
+        }
+
+        function setupMemoryGame() {
+            const memoryGame = document.getElementById('memoryGame');
+            if (!memoryGame) return;
+
+            const cards = [
+                { text: 'المركز (2,3)', pair: 'a=2, b=3' },
+                { text: 'a=2, b=3', pair: 'المركز (2,3)' },
+                { text: 'نصف القطر 5', pair: 'r²=25' },
+                { text: 'r²=25', pair: 'نصف القطر 5' },
+                { text: '(x-1)²', pair: 'المركز x=1' },
+                { text: 'المركز x=1', pair: '(x-1)²' }
+            ];
+
+            cards.sort(() => Math.random() - 0.5);
+
+            let flipped = [];
+            let matched = 0;
+
+            cards.forEach((card, index) => {
+                const div = document.createElement('div');
+                div.className = 'memory-card';
+                div.dataset.pair = card.pair;
+                div.innerHTML = '❓';
+                div.onclick = function() {
+                    if (this.classList.contains('flipped') || this.classList.contains('matched')) return;
+                    
+                    this.classList.add('flipped');
+                    this.innerHTML = card.text;
+                    flipped.push(this);
+
+                    if (flipped.length === 2) {
+                        if (flipped[0].dataset.pair === flipped[1].innerHTML) {
+                            flipped[0].classList.add('matched');
+                            flipped[1].classList.add('matched');
+                            matched += 2;
+                            addScore(15);
+                            if (matched === cards.length) {
+                                setTimeout(() => {
+                                    showCelebration();
+                                }, 500);
+                            }
+                            flipped = [];
+                        } else {
+                            setTimeout(() => {
+                                flipped.forEach(card => {
+                                    card.classList.remove('flipped');
+                                    card.innerHTML = '❓';
+                                });
+                                flipped = [];
+                            }, 1000);
+                        }
+                    }
+                };
+                memoryGame.appendChild(div);
+            });
+        }
+
+        function checkSection1() {
+            const filled = document.querySelectorAll('.drop-zone.filled').length;
+            if (filled === 3) {
+                showFeedback('feedback1', 'success', '🎉 ممتاز! فهمت أجزاء الدائرة! +30 نقطة');
+                addScore(30);
+                document.getElementById('next1').disabled = false;
+                showCelebration();
+            } else {
+                showFeedback('feedback1', 'error', '❌ تأكد من ملء جميع الأماكن بشكل صحيح!');
+            }
+        }
+
+        function selectQuiz2(element, correct) {
+            document.querySelectorAll('#section2 .quiz-option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+
+            if (correct) {
+                element.classList.add('correct-answer');
+                showFeedback('feedback2', 'success', '🎉 إجابة صحيحة! +25 نقطة');
+                addScore(25);
+                document.getElementById('next2').disabled = false;
+                showCelebration();
+            } else {
+                element.classList.add('wrong-answer');
+                showFeedback('feedback2', 'error', '❌ حاول مرة أخرى! الجواب هو 7 لأن نصف القطر = المسافة من المركز لأي نقطة');
+            }
+        }
+
+        function selectQuiz3(element, correct) {
+            document.querySelectorAll('#section3 .quiz-option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+
+            if (correct) {
+                element.classList.add('correct-answer');
+                showFeedback('feedback3', 'success', '🎉 رائع! 8² = 64. +25 نقطة');
+                addScore(25);
+                document.getElementById('next3').disabled = false;
+                showCelebration();
+                setTimeout(() => {
+                    setupCanvas4();
+                }, 500);
+            } else {
+                element.classList.add('wrong-answer');
+                showFeedback('feedback3', 'error', '❌ تذكر: r² يعني نربع نصف القطر! 8 × 8 = 64');
+            }
+        }
+
+        function selectQuiz4(element, correct) {
+            document.querySelectorAll('#section4 .quiz-option').forEach(opt => {
+                opt.style.pointerEvents = 'none';
+            });
+
+            if (correct) {
+                element.classList.add('correct-answer');
+                showFeedback('feedback4', 'success', '🎉 ممتاز! فهمت الصورة القياسية! +30 نقطة');
+                addScore(30);
+                document.getElementById('next4').disabled = false;
+                showCelebration();
+            } else {
+                element.classList.add('wrong-answer');
+                showFeedback('feedback4', 'error', '❌ تذكر: r² = 3² = 9');
+            }
+        }
+
+        function selectFinal(questionNum, element, correct) {
+            const siblings = element.parentElement.querySelectorAll('.quiz-option');
+            siblings.forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (correct) {
+                element.classList.add('correct-answer');
+                finalAnswers[questionNum - 1] = true;
+            } else {
+                element.classList.add('wrong-answer');
+            }
+        }
+
+        function checkFinalTest() {
+            const correctCount = finalAnswers.filter(a => a).length;
+            const percentage = (correctCount / 5) * 100;
+
+            if (correctCount === 5) {
+                showFeedback('feedbackFinal', 'success', `🏆 مثالي! ${correctCount}/5 صحيحة! أنت بطل حقيقي! +100 نقطة`);
+                addScore(100);
+                document.getElementById('finishBtn').disabled = false;
+                showCelebration();
+            } else if (correctCount >= 3) {
+                showFeedback('feedbackFinal', 'success', `👏 جيد جداً! ${correctCount}/5 صحيحة! +${correctCount * 15} نقطة`);
+                addScore(correctCount * 15);
+                document.getElementById('finishBtn').disabled = false;
+            } else {
+                showFeedback('feedbackFinal', 'error', `💪 ${correctCount}/5 صحيحة. راجع الدرس وحاول مرة أخرى!`);
+            }
+        }
+
+        function finishCourse() {
+            const finalScore = score;
+            alert(`🎉🎉🎉\n\nمبروك! أنهيت الدرس بنجاح!\n\nمجموع نقاطك: ${finalScore}\n\nأنت الآن خبير في معادلة الدائرة! 🏆`);
+            showCelebration();
+        }
+
+        function goToSection(num) {
+            document.querySelectorAll('.lesson-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById('section' + num).classList.add('active');
+            currentSection = num;
+            updateProgress();
+
+            // Setup canvases when sections are shown
+            if (num === 1) animateCircle1();
+            if (num === 2) setupCanvas2();
+            if (num === 3) setupCanvas3();
+            if (num === 4) setupCanvas4();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateProgress() {
+            const progress = (currentSection / 5) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressBar').textContent = Math.round(progress) + '%';
+        }
+
+        function addScore(points) {
+            score += points;
+            document.getElementById('totalScore').textContent = score;
+        }
+
+        function showFeedback(id, type, message) {
+            const feedback = document.getElementById(id);
+            feedback.className = 'feedback ' + type;
+            feedback.textContent = message;
+            feedback.style.display = 'block';
+        }
+
+        function showCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.classList.add('show');
+        }
+
+        function closeCelebration() {
+            const celebration = document.getElementById('celebration');
+            celebration.classList.remove('show');
+        }
+
+        updateProgress();
+    </script>
+</body>
+</html>
